@@ -57,25 +57,27 @@ function addListenerToCells(){
 
 // On doit vérifier s'il y a un vainqueur
 function checkIfSomeoneWon(){
-    // On vérifie les lignes
-    if( (grid[0] === grid[1] && grid[1] == grid[2] && grid[2] == currentPlayer) ||
-        (grid[3] === grid[4] && grid[4] == grid[5] && grid[5] == currentPlayer) ||
-        (grid[6] === grid[7] && grid[7] == grid[8] && grid[8] == currentPlayer) ||
 
-        (grid[0] === grid[3] && grid[3] == grid[6] && grid[6] == currentPlayer) ||
-        (grid[1] === grid[4] && grid[4] == grid[7] && grid[7] == currentPlayer) ||
-        (grid[2] === grid[5] && grid[5] == grid[8] && grid[8] == currentPlayer) ||
+    // Définir les combinaisons gagnantes
+    const winningCombinations = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Lignes
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Colonnes
+        [0, 4, 8], [2, 4, 6] // Diagonales
+    ]
 
-        (grid[0] === grid[4] && grid[4] == grid[8] && grid[8] == currentPlayer) ||
-        (grid[2] === grid[4] && grid[4] == grid[6] && grid[6] == currentPlayer)
-    ){
-        isGameWon = true;
+    // Fonction qui vérifie si une combinaison données est gagnante
+    const isWinningCombination = (combination) => 
+        combination.every(index => grid[index] === currentPlayer)
+
+    // On vérifie si une combinaison gagnante est présente
+    isGameWon = winningCombinations.some(isWinningCombination);
+    if(isGameWon) {
         if(currentPlayer === 1){
             score.player1++
         } else  {
             score.player2++
         }
-    }
+    }i
 
     // On vérifie si la partie est finie
     isGameFinished = grid.every(cell => cell !== 0);
